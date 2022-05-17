@@ -17,7 +17,7 @@ function setLSData(data, item) {
         console.log('ache')
         localData.map(function(localItem, index) {
             if (localItem.productId == item.productId) {
-                item.count = localItem.count + 1;
+                item.count = parseInt(localItem.count) + 1;
                 item.price = parseInt(localItem.price);
                 item.qty = parseInt(localItem.qty) + 1;
                 // newData.push(item);
@@ -44,26 +44,26 @@ function renderMiniCart() {
     if (!!localData && localData.length > 0) {
 
         localData.map(function(localItem, index) {
-            cartItems += '<li class="item">';
+            cartItems += '<li class="item" data-product-id="'+localItem.productId+'" data-unit-price="'+localItem.unit_price+'">';
             cartItems += '<a class="product-image" href="#"><img src="' +localItem.img+ '" /></a>';
             cartItems += '        <a class="pName" href="cart.html">'+localItem.name+'</a>';
             cartItems += '               <div class="wrapQtyBtn">';
             cartItems += '            <div class="qtyField">';
             cartItems += '                <span class="label">Qty:</span>';
-            cartItems += '               <a class="qtyBtn minus" href="javascript:void(0);"><i class="fa anm anm-minus-r" aria-hidden="true"></i></a>';
+            cartItems += '               <a class="qtyBtn qtyminus minus" href="javascript:void(0);"><i class="fa anm anm-minus-r" aria-hidden="true"></i></a>';
             cartItems += '               <input type="text" id="Quantity" name="quantity" value="'+localItem.qty+ '" class="product-form__input qty">';
-            cartItems += '               <a class="qtyBtn plus" href="javascript:void(0);"><i class="fa anm anm-plus-r" aria-hidden="true"></i></a>';
+            cartItems += '               <a class="qtyBtn qtyplus plus" href="javascript:void(0);"><i class="fa anm anm-plus-r" aria-hidden="true"></i></a>';
             cartItems += '           </div>';
             cartItems += '       </div>';
             cartItems += '     <div class="priceRow">';
             cartItems += '             <div class="product-price">';
-            cartItems += '                 <span class="money">$'+localItem.price * localItem.qty+'</span>';
+            cartItems += '                 <span class="money">$'+localItem.price+'</span>';
             cartItems += '            </div>';
             cartItems += '         </div>';
             cartItems += '    </div>';
             cartItems += ' </li>';
             cartCount = cartCount + parseInt(localItem.count);
-            cartTotalPrice += localItem.price * localItem.qty;
+            cartTotalPrice += localItem.unit_price * localItem.qty;
         })
 
     } else {
@@ -81,32 +81,33 @@ function renderMiniCart() {
         $(elm).on('click', function() {
             let data = [];
             let qty = $(this).siblings('input');
-            let cartItem = $(this).closest('.single-cart-item');
+            let cartItem = $(this).closest('.item');
             qty.val(function(i, oldval) {
                 return parseInt(oldval, 10) + 1;
+                
             });
             localData.map(function(localItem, index) {
                 if (
-                    localItem.productId == cartItem.data('product-id') &&
-                    localItem.size == cartItem.find('.cart-item-size')[0].innerText
+                    localItem.productId == parseInt(cartItem.data('product-id'))
                 ) {
                     localItem.count = qty.val();
-                    localItem.price = localItem.price + cartItem.data('unit-price');
+                    localItem.qty = qty.val();
+                    localItem.price = parseInt(localItem.qty) * parseInt(cartItem.data('unit-price'));
+                   
                 }
                 data.push(localItem);
             })
             localStorage.setItem('cart', JSON.stringify(data));
+            
             renderMiniCart();
-            console.log(cartItem.find('.cart-item-size')[0].innerText);
         })
     })
-
     $('.qtyminus').each(function(i, elm) {
         // console.log(elm)
         $(elm).on('click', function() {
             let data = [];
             let qty = $(this).siblings('input');
-            let cartItem = $(this).closest('.single-cart-item');
+            let cartItem = $(this).closest('.item');
             qty.val(function(i, oldval) {
                 oldval = parseInt(oldval, 10);
                 return (oldval - 1) > 0 ? oldval - 1 : 1;
@@ -114,17 +115,17 @@ function renderMiniCart() {
             localData.map(function(localItem, index) {
                 if (
                     localItem.productId == cartItem.data('product-id') &&
-                    localItem.size == cartItem.find('.cart-item-size')[0].innerText &&
-                    qty.val() > 0 && localItem.price > localItem.unitPrice
+                    qty.val() > 0 && localItem.price > localItem.unit_price
                 ) {
                     localItem.count = qty.val();
+                    localItem.qty = qty.val();
                     localItem.price = localItem.price - cartItem.data('unit-price');
                 }
                 data.push(localItem);
             })
             localStorage.setItem('cart', JSON.stringify(data));
             renderMiniCart();
-            console.log(cartItem.find('.cart-item-size')[0].innerText);
+            // console.log(cartItem.find('.cart-item-size')[0].innerText);
         })
     })
 
@@ -197,6 +198,7 @@ function addToCartProdCard(e) {
         'price': price,
         'img': img,
         'qty': qty,
+        'unit_price': price,
     }
 
     if (!$.isEmptyObject(item)) {
@@ -207,5 +209,120 @@ function addToCartProdCard(e) {
         // localStorage.setItem('cart', JSON.stringify(items));
     }
 }
+renderBigCart('#CartBody','#Subtotal');
+function renderBigCart(cartSelector, subtotalSelector, shippingSelector, totalSelector) {
+    const cart = document.querySelector(cartSelector);
+    const subtotal = document.querySelector(subtotalSelector);
+    const shippingCharge = document.querySelector(shippingSelector);
+    const total = document.querySelector(totalSelector);
+     // console.log('cart', cart);
+    let items = cartList();
+    // console.log('items', items);
+    if (!!items && items.length > 0) {
+        cart.innerHTML = items.map((item) => `
+            <tr class="cart__row border-bottom line1 cart-flex border-top item" data-product-id="${item.productId}" data-unit-price="${item.unit_price}">
+            <td class="cart__image-wrapper cart-flex-item"><a href="#"><img class="cart__image" src="${item.img}" alt="${item.name}"></a></td>
+            <td class="cart__meta small--text-left cart-flex-item"><div class="list-view-item__title"><a href="#">${item.name}</a></div></td>
+            <td class="cart__price-wrapper cart-flex-item"><span class="money">${item.unit_price}</span></td>
+            <td class="cart__update-wrapper cart-flex-item text-right">
+                <div class="cart__qty text-center">
+                    <div class="qtyField">
+                        <a class="qtyBtn qtyminus minus" href="javascript:void(0);"><i class="icon icon-minus"></i></a>
+                        <input class="cart__qty-input qty" type="text" name="quantity${item.productId}" id="qty" value="${item.count}" pattern="[0-9]*">
+                        <a class="qtyBtn qtyplus plus" href="javascript:void(0);"><i class="icon icon-plus"></i></a>
+                    </div>
+                </div>
+            </td>
+            <td class="text-right small--hide cart-price"><div><span class="money">${item.price}</span></div></td>
+            <td class="text-center small--hide"><a href="#" class="btn btn--secondary cart__remove" title="Remove tem"><i class="icon icon anm anm-times-l"></i></a></td>
+            </tr>`).join("")
+    } else {
+        cart.innerHTML = `<tr class="single-big-cart-item"}"><td colspan="7"><h3 class="text-center">Empty Cart</h3></td></tr>`
+    }
+
+    subtotal.innerHTML = cartTotalPrice();
+    // total.innerHTML = cartTotalPrice() + parseInt(shippingCharge.innerText);
+
+    $('.qtyplus').each(function(i, elm) {
+        // console.log(elm)
+        $(elm).on('click', function() {
+            let data = [];
+            let qty = $(this).siblings('input');
+            let cartItem = $(this).closest('.item');
+            qty.val(function(i, oldval) {
+                return parseInt(oldval, 10) + 1;
+            });
+            let items = cartList();
+            items.map(function(localItem, index) {
+                if (
+                    localItem.productId == cartItem.data('product-id') 
+                ) {
+                    localItem.count = qty.val();
+                    localItem.price = localItem.price + cartItem.data('unit-price');
+                }
+                data.push(localItem);
+            })
+            localStorage.setItem('cart', JSON.stringify(data));
+            renderMiniCart();
+            renderBigCart(cartSelector, subtotalSelector, '.shipping-charge', '.total-price');
+            // console.log(cartItem.find('.pro-size')[0].innerText);
+        })
+    })
+
+    $('.qtyminus').each(function(i, elm) {
+        // console.log(elm)
+        $(elm).on('click', function() {
+            let data = [];
+            let qty = $(this).siblings('input');
+            let cartItem = $(this).closest('.single-big-cart-item');
+            qty.val(function(i, oldval) {
+                oldval = parseInt(oldval, 10);
+                return (oldval - 1) > 0 ? oldval - 1 : 1;
+            });
+            let items = cartList();
+            items.map(function(localItem, index) {
+                if (
+                    localItem.productId == cartItem.data('product-id') &&
+                    localItem.size == cartItem.find('.pro-size')[0].innerText &&
+                    qty.val() > 0 && localItem.price > localItem.unitPrice
+                ) {
+                    localItem.count = qty.val();
+                    localItem.price = localItem.price - cartItem.data('unit-price');
+                }
+                data.push(localItem);
+            })
+            localStorage.setItem('cart', JSON.stringify(data));
+            renderMiniCart();
+            renderBigCart(cartSelector, subtotalSelector, '.shipping-charge', '.total-price');
+            // console.log(cartItem.find('.pro-size')[0].innerText);
+        })
+    })
+
+    $('.remove-cart-item').each(function(i, elm) {
+        $(elm).on('click', function(e) {
+            e.preventDefault();
+            let data = [];
+            let cartItem = $(this).closest('.single-big-cart-item');
+            console.log(cartItem);
+            let items = cartList();
+            items.map(function(localItem, index) {
+                    if (
+                        localItem.productId !== cartItem.data('product-id') ||
+                        (localItem.productId == cartItem.data('product-id') &&
+                            localItem.size != cartItem.find('.pro-size')[0].innerText)
+                    ) {
+                        // console.log(localItem.size, cartItem.find('.pro-size')[0].innerText);
+                        data.push(localItem);
+                    }
+                })
+                // console.log(localItem.productId == cartItem.data('product-id') &&
+                // localItem.size != cartItem.find('.pro-size')[0].innerText)
+            localStorage.setItem('cart', JSON.stringify(data));
+            renderMiniCart();
+            renderBigCart(cartSelector, subtotalSelector, '.shipping-charge', '.total-price');
+        })
+    })
+}
+
 
 renderMiniCart();
