@@ -63,6 +63,7 @@
                     <div class="col-2 col-sm-4 col-md-3 col-lg-4 text-right">
                         <span class="user-menu d-block d-lg-none"><i class="anm anm-user-al" aria-hidden="true"></i></span>
                         <ul class="customer-links list-inline">
+                            <li><a href="customer-account.html">Account</a></li>
                             <li><a href="login.html">Login</a></li>
                             <li><a href="register.html">Create Account</a></li>
                             <li><a href="wishlist.html">Wishlist</a></li>
@@ -86,9 +87,9 @@
                     <div class="col-2 col-sm-3 col-md-3 col-lg-8">
                         <div class="d-block d-lg-none">
                             <button type="button" class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
-                        <i class="icon anm anm-times-l"></i>
-                        <i class="anm anm-bars-r"></i>
-                    </button>
+                                    <i class="icon anm anm-times-l"></i>
+                                    <i class="anm anm-bars-r"></i>
+                                </button>
                         </div>
                         <!--Desktop Menu-->
                         <nav class="grid__item" id="AccessibleNav">
@@ -99,7 +100,14 @@
                                 <li class="lvl1 parent megamenu"><a href="shop.html">Shop <i class="anm anm-angle-down-l"></i></a>
 
                                 </li>
-                                <li class="lvl1 parent dropdown"><a href="blog-grid-view.html">Blog <i class="anm anm-angle-down-l"></i></a>
+                                <li class="lvl1 parent dropdown"><a href="blog-grid-view.html">Blog <i class="anm anm-angle-down-l"></i></a></li>
+                                <li class="lvl1 parent dropdown"><a href="blog-grid-view.html">Categories <i class="anm anm-angle-down-l"></i></a>
+                                    <ul class="dropdown">
+                                        <li><a href="#" class="site-nav">Categories</a></li>
+                                        <li><a href="#" class="site-nav">Categories </a></li>
+                                        <li><a href="#" class="site-nav">Categories</a></li>
+                                        <li><a href="#" class="site-nav">Categories</a></li>
+                                    </ul>
                                 </li>
                                 <li class="lvl1 parent megamenu"><a href="about-us.html">About <i class="anm anm-plus-l"></i></a>
                                     <li class="lvl1 parent megamenu"><a href="contact-us.html">Contact <i class="anm anm-plus-l"></i></a></li>
@@ -122,12 +130,10 @@
                             </a>
                             <!--Minicart Popup-->
                             <div id="header-cart" class="block block-cart">
-                                <ul class="mini-products-list">
-                                   
-                                </ul>
+                                <ul class="mini-products-list"></ul>
                                 <div class="total">
                                     <div class="total-in">
-                                        <span class="label">Cart Subtotal:</span><span class="product-price"><span class="money" id="cartTotal">$00.00</span></span>
+                                        <span class="label">Cart Subtotal:</span><span class="product-price"><span class="money" id="cartTotal">$0.00</span></span>
                                     </div>
                                     <div class="buttonSet text-center">
                                         <a href="cart.html" class="btn btn-secondary btn--small">View Cart</a>
@@ -149,16 +155,24 @@
         <div class="mobile-nav-wrapper" role="navigation">
             <div class="closemobileMenu"><i class="icon anm anm-times-l pull-right"></i> Close Menu</div>
             <ul id="MobileNav" class="mobile-nav">
-                <li class="lvl1 parent megamenu"><a href="index.html">Home <i class="anm anm-plus-l"></i></a>
+                <li class="lvl1 parent megamenu"><a href="index.html">Home </a>
                 </li>
-                <li class="lvl1 parent megamenu"><a href="shop.html">Shop <i class="anm anm-plus-l"></i></a>
+                <li class="lvl1 parent megamenu"><a href="shop.html">Shop </a>
                 </li>
 
-                <li class="lvl1 parent megamenu"><a href="blog-grid-view.html">Blog <i class="anm anm-plus-l"></i></a>
+                <li class="lvl1 parent megamenu"><a href="blog-grid-view.html">Blog </a>
                 </li>
-                <li class="lvl1 parent megamenu"><a href="about-us.html">About <i class="anm anm-plus-l"></i></a>
-                    <li class="lvl1 parent megamenu"><a href="contact-us.html">Contact <i class="anm anm-plus-l"></i></a></li>
-            </ul>
+                <li class="lvl1 parent dropdown"><a href="#">Categories <i class="anm anm-plus-l"></i></a>
+                    <ul>
+                        <li><a href="#" class="site-nav">Categories</a></li>
+                        <li><a href="#" class="site-nav">Categories </a></li>
+                        <li><a href="#" class="site-nav">Categories</a></li>
+                        <li><a href="#" class="site-nav">Categories/a></li>
+                            </ul>
+                        </li>
+                        <li class="lvl1 parent megamenu"><a href="about-us.html">About </i></a></li>
+                        <li class="lvl1 parent megamenu"><a href="contact-us.html">Contact </i></a></li>
+                    </ul>
         </div>
         <!--End Mobile Menu-->
 
@@ -189,7 +203,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="CartBody">
-                                    
+
                                 </tbody>
                                 <tfoot>
                                     <tr>
