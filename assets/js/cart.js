@@ -302,17 +302,15 @@ function renderBigCart(cartSelector, subtotalSelector, shippingSelector, totalSe
 
     $('.remove-item').each(function(i, elm) {
         $(elm).on('click', function(e) {
-            // alert('clicked');
             e.preventDefault();
             let data = [];
             let cartItem = $(this).closest('.item');
-
             let items = cartList();
             items.map(function(localItem, index) {
                     if (localItem.productId == cartItem.data('product-id')) {
                         // console.log(localItem.size, cartItem.find('.pro-size')[0].innerText);
                         if (index == 0) {
-                            localStorage.clear('cart'); // Clear cart Storage
+                            localStorage.removeItem('cart'); // Clear cart Storage
                         } else {
                             data.push(localItem); // update the cart
                         }
