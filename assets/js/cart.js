@@ -18,8 +18,7 @@ function setLSData(data, item) {
         localData.map(function(localItem, index) {
             if (localItem.productId == item.productId) {
                 item.count = parseInt(localItem.count) + 1;
-                item.price = parseInt(localItem.price);
-                item.qty = parseInt(localItem.qty) + 1;
+                item.price = parseInt(localItem.price) + parseInt(item.price);
                 // newData.push(item);
                 console.log('same')
             } else {
@@ -64,7 +63,7 @@ function renderMiniCart() {
             cartItems += '    </div>';
             cartItems += ' </li>';
             cartCount = cartCount + parseInt(localItem.count);
-            cartTotalPrice += localItem.unit_price * localItem.qty;
+            cartTotalPrice += parseInt(localItem.unit_price) * parseInt(localItem.count);
         })
 
     } else {
@@ -92,8 +91,7 @@ function renderMiniCart() {
                     localItem.productId == parseInt(cartItem.data('product-id'))
                 ) {
                     localItem.count = qty.val();
-                    localItem.qty = qty.val();
-                    localItem.price = parseInt(localItem.qty) * parseInt(cartItem.data('unit-price'));
+                    localItem.price = parseInt(localItem.count) * parseInt(cartItem.data('unit-price'));
 
                 }
                 data.push(localItem);
@@ -119,7 +117,6 @@ function renderMiniCart() {
                     qty.val() > 0 && localItem.price > localItem.unit_price
                 ) {
                     localItem.count = qty.val();
-                    localItem.qty = qty.val();
                     localItem.price = localItem.price - cartItem.data('unit-price');
                 }
                 data.push(localItem);
@@ -192,18 +189,16 @@ function addToCartProdCard(e) {
     let name = btn_parent.children[1].value;
     let price = btn_parent.children[2].value;
     let productId = btn_parent.children[3].value;
-    let qty = btn_parent.children[4].value;
     let img = btn_parent.children[0].src;
     let count = 1;
 
     let item = {
-        'productId': productId,
+        'productId': parseInt(productId),
         'name': name,
-        'count': count,
-        'price': price,
+        'count': parseInt(count),
+        'price': parseInt(price),
         'img': img,
-        'qty': qty,
-        'unit_price': price,
+        'unit_price': parseInt(price),
     }
 
     if (!$.isEmptyObject(item)) {
@@ -263,7 +258,9 @@ function renderBigCart(cartSelector, subtotalSelector, shippingSelector, totalSe
                     localItem.productId == cartItem.data('product-id')
                 ) {
                     localItem.count = qty.val();
-                    localItem.price = parseInt(localItem.price) + parseInt(cartItem.data('unit-price'));
+                    localItem.price = parseInt(localItem.count) * parseInt(cartItem.data('unit-price'));
+
+
                 }
                 data.push(localItem);
             })
@@ -292,6 +289,7 @@ function renderBigCart(cartSelector, subtotalSelector, shippingSelector, totalSe
                 ) {
                     localItem.count = qty.val();
                     localItem.price = parseInt(localItem.price) - parseInt(cartItem.data('unit-price'));
+
                 }
                 data.push(localItem);
             })
