@@ -305,22 +305,23 @@ function renderBigCart(cartSelector, subtotalSelector, shippingSelector, totalSe
             e.preventDefault();
             let data = [];
             let cartItem = $(this).closest('.item');
+            // console.log(cartItem);
             let items = cartList();
             items.map(function(localItem, index) {
-                    if (localItem.productId == cartItem.data('product-id')) {
+                    if (
+                        localItem.productId !== cartItem.data('product-id')
+                        //  || (localItem.productId == cartItem.data('product-id') &&
+                        //     localItem.size != cartItem.find('.pro-size')[0].innerText)
+                    ) {
                         // console.log(localItem.size, cartItem.find('.pro-size')[0].innerText);
-                        if (index == 0) {
-                            localStorage.removeItem('cart'); // Clear cart Storage
-                        } else {
-                            data.push(localItem); // update the cart
-                        }
+                        data.push(localItem);
                     }
                 })
                 // console.log(localItem.productId == cartItem.data('product-id') &&
                 // localItem.size != cartItem.find('.pro-size')[0].innerText)
             localStorage.setItem('cart', JSON.stringify(data));
             renderMiniCart();
-            renderBigCart(cartSelector, subtotalSelector, '.shipping-charge', '.total-price');
+            renderBigCart(cartSelector, subtotalSelector);
         })
     })
 }

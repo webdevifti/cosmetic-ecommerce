@@ -18,6 +18,8 @@
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/alertifyjs/css/alertify.min.css">
+    <link rel="stylesheet" href="assets/alertifyjs/css/themes/default.min.css">
 
     <style>
         body {
@@ -260,7 +262,7 @@
                                     <input type="hidden" value="15" id="pprice">
                                     <input type="hidden" value="1" id="pid">
                                     <input type="hidden" value="1" id="qty">
-                                    <button class="btn btn-addto-cart" type="button" tabindex="0">Add To Cart</button>
+                                    <button class="btn btn-addto-cart cart-btn-alert" type="button" tabindex="0">Add To Cart</button>
                                 </div>
                                 <div class="button-set">
                                     <a href="javascript:void(0)" title="Quick View" class="quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
@@ -315,7 +317,7 @@
                                     <input type="hidden" value="19" id="pprice">
                                     <input type="hidden" value="2" id="pid">
                                     <input type="hidden" value="1" id="qty">
-                                    <button class="btn btn-addto-cart" type="button" tabindex="0">Add To Cart</button>
+                                    <button class="btn btn-addto-cart cart-btn-alert" type="button" tabindex="0">Add To Cart</button>
                                 </div>
                                 <div class="button-set">
                                     <a href="javascript:void(0)" title="Quick View" class="quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
@@ -740,6 +742,7 @@
         <script src="assets/js/lazysizes.js"></script>
         <script src="assets/js/main.js"></script>
         <script src="assets/js/cart.js"></script>
+        <script src="assets/alertifyjs/alertify.min.js"></script>
         <!--Instagram Js-->
         <script>
             var userFeed = new Instafeed({
