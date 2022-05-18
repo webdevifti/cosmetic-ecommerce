@@ -312,7 +312,7 @@ function renderBigCart(cartSelector, subtotalSelector, shippingSelector, totalSe
                     if (localItem.productId == cartItem.data('product-id')) {
                         // console.log(localItem.size, cartItem.find('.pro-size')[0].innerText);
                         if (index == 0) {
-                            localStorage.clear('cart');
+                            localStorage.clear('cart'); // Clear cart Storage
                         } else {
                             data.push(localItem); // update the cart
                         }
