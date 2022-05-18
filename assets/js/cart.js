@@ -24,7 +24,7 @@ function setLSData(data, item) {
             } else {
                 data.push(localItem);
                 console.log('localItem', localItem)
-                console.log('data', data)
+                    // console.log('data', data)
             }
         });
         data.push(item);
@@ -90,7 +90,7 @@ function renderMiniCart() {
                 if (
                     localItem.productId == parseInt(cartItem.data('product-id'))
                 ) {
-                    localItem.count = qty.val();
+                    localItem.count = parseInt(qty.val());
                     localItem.price = parseInt(localItem.count) * parseInt(cartItem.data('unit-price'));
 
                 }
@@ -116,8 +116,8 @@ function renderMiniCart() {
                     localItem.productId == cartItem.data('product-id') &&
                     qty.val() > 0 && localItem.price > localItem.unit_price
                 ) {
-                    localItem.count = qty.val();
-                    localItem.price = localItem.price - cartItem.data('unit-price');
+                    localItem.count = parseInt(qty.val());
+                    localItem.price = parseInt(localItem.price) - parseInt(cartItem.data('unit-price'));
                 }
                 data.push(localItem);
             })
@@ -257,7 +257,7 @@ function renderBigCart(cartSelector, subtotalSelector, shippingSelector, totalSe
                 if (
                     localItem.productId == cartItem.data('product-id')
                 ) {
-                    localItem.count = qty.val();
+                    localItem.count = parseInt(qty.val());
                     localItem.price = parseInt(localItem.count) * parseInt(cartItem.data('unit-price'));
 
 
@@ -287,7 +287,7 @@ function renderBigCart(cartSelector, subtotalSelector, shippingSelector, totalSe
                     localItem.productId == cartItem.data('product-id') &&
                     qty.val() > 0 && localItem.price > localItem.unit_price
                 ) {
-                    localItem.count = qty.val();
+                    localItem.count = parseInt(qty.val());
                     localItem.price = parseInt(localItem.price) - parseInt(cartItem.data('unit-price'));
 
                 }
